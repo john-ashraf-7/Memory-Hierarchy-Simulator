@@ -30,9 +30,9 @@ def readUserData():
 		cacheAccessTime=int(input("Enter the cache access time in cycles between 1 and 10:"))
 
 	with open("../Tests/sequence0.txt") as file:
-		addrs=file.read()
+		addresses=file.read()
 
-	addrs=addrs.split(",")
-	addrs=list(map(int,addrs)) #converting the numbers from string to integers
+	addresses=addresses.split(",")
+	addresses=list(map(int,addresses)) #converting the numbers from string to integers
 
-	return addrLength, memorySize, memoryAccessTime, cacheLineSize, cacheSize, cacheAccessTime, addrs;
+	return addrLength, addresses, memorySize, memoryAccessTime, cacheLineSize, cacheSize, cacheAccessTime;
