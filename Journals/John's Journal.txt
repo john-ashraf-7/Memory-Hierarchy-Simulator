@@ -1,2 +1,4 @@
 Dec 6: Initial Commit and first meeting for discussing the project.
 
+Dec 7: Created the datastructure for the cache and sliced each input address to its equivalent tag,index,data
+after converting from decimal to binary then binary to decimal again after conversion.
