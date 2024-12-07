@@ -1,0 +1,3 @@
+Dec 6: Initial Commit and first meeting for discussing the project.
+
+Dec 6: Handled everything related to the inputs part.

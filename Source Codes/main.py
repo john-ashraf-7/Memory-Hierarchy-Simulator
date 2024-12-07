@@ -1,4 +1,4 @@
-import accessSequences#contains the functions that generate static set of files containing random accessed addresses
+import accessSequences #contains the functions that generate static set of files containing random accessed addresses
 
 addrLength=int(input("Enter the length of the address between 16 and 40:"))
 #to verify the input
