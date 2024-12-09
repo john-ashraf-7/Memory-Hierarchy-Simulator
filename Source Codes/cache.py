@@ -10,11 +10,28 @@ def initialize_cache(cacheSize, cacheLineSize, displacement):
     cache = [[{'data': None, 'V': False, 'tag': None} for _ in range(2**displacement)] for _ in range(number_of_lines)]
     return cache
 # to update the cache in cases of miss
-def update_cache(cache, index, displacement, tag):
+def update_cache(cache, index, displacement, tag): #used when we detect a miss
     for i in range(2**displacement):
         cache[index][i]['V'] = True  # Mark as valid
         cache[index][i]['tag'] = tag  # Update the tag
-        cache[index][i]['data'] = None  # Placeholder for data if needed
+        cache[index][i]['data'] = bin(i)[2:].zfill(displacement)  # Placeholder for data if needed
+
+def print_cache(cache):
+    """
+    Print the state of the cache in a structured format.
+
+    :param cache: The 2D list representing the cache.
+    """
+    print("\nCurrent Cache State:")
+    print("-" * 50)
+    for line_index, line in enumerate(cache):
+        print(f"Line {line_index}:")
+        for byte_index, entry in enumerate(line):
+            data = entry['data']
+            valid = entry['V']
+            tag = entry['tag']
+            print(f"  Byte {byte_index} -> Valid: {valid}, Tag: {tag}, Data: {data}")
+        print("-" * 50)
 
 def readFromMemory(addrLength, addresses, memorySize, memoryAccessTime, cacheLineSize, cacheSize, cacheAccessTime):
     number_of_lines = int(cacheSize / cacheLineSize)
@@ -62,20 +79,24 @@ def readFromMemory(addrLength, addresses, memorySize, memoryAccessTime, cacheLin
                 hit_count += 1
                 total_cycles += cacheAccessTime
                 print("Hit!")
-
+                print(f"Number of hits: {hit_count}")
+                print(f"Number of Misses: {miss_count}")
             else:
                 # Cache miss: update the cache for this line
                 miss_count += 1
                 total_cycles += memoryAccessTime + cacheAccessTime
                 update_cache(cache, index, displacement, tag)
                 print("Miss.")
-
+                print(f"Number of hits: {hit_count}")
+                print(f"Number of Misses: {miss_count}")
         else:
             # Cache miss: update the cache for this line
             miss_count += 1
             total_cycles += memoryAccessTime + cacheAccessTime
             update_cache(cache, index, displacement, tag)
             print("Miss.")
+            print(f"Number of hits: {hit_count}")
+            print(f"Number of Misses: {miss_count}")
 
 
 
@@ -83,5 +104,5 @@ def readFromMemory(addrLength, addresses, memorySize, memoryAccessTime, cacheLin
         print(f"index: {index}")
         print(f"tag: {tag}")
         print()
-
-    return hit_count, miss_count, total_cycles
+        # print_cache(cache)
+    return hit_count, miss_count, total_cycles, cache
