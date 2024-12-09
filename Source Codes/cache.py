@@ -7,7 +7,7 @@ def initialize_cache(cacheSize, cacheLineSize, displacement):
     # Initialize the cache as a 2D list
     # Each row corresponds to a cache line
     #each column corresponds to a different byte in a range of "displacement"
-    cache = [[{'data': None, 'V': False, 'tag': None} for _ in range(displacement)] for _ in range(number_of_lines)]
+    cache = [[{'data': None, 'V': False, 'tag': None} for _ in range(2**displacement)] for _ in range(number_of_lines)]
     return cache
 # to update the cache in cases of miss
 def update_cache(cache, index, displacement, tag):
@@ -42,34 +42,41 @@ def readFromMemory(addrLength, addresses, memorySize, memoryAccessTime, cacheLin
         tag = int(tag,2) #convert tag to decimal
         data = int(data,2) #convert data to decimal
 
-        #Inspect The Cache
-        #this part is left for Reem
-        #if(cache[index][data]['V']):
-         #   if(cache[index][data]['tag'] == tag):
-                #that's a hit.
-          #      hit_count +=1;
-           #     total_cycles += cacheAccessTime
-        #else:
-            #that's a miss, now transfer the entire line (this index with all its data to the cache and mark V as true)
-         #   miss_count+=1;
-          #  total_cycles += memoryAccessTime + cacheAccessTime
-           # update_cache(cache, index, displacement, tag)
+        # Inspect The Cache
+        # this part is left for Reem
+        # if(cache[index][data]['V']):
+        #    if(cache[index][data]['tag'] == tag):
+        #         # that's a hit.
+        #        hit_count +=1;
+        #        total_cycles += cacheAccessTime
+        # else:
+        #     # that's a miss, now transfer the entire line (this index with all its data to the cache and mark V as true)
+        #    miss_count+=1;
+        #    total_cycles += memoryAccessTime + cacheAccessTime
+        #    update_cache(cache, index, displacement, tag)
+
 
         if cache[index][data]['V']:
             if cache[index][data]['tag'] == tag:
                 # Cache hit
                 hit_count += 1
                 total_cycles += cacheAccessTime
+                print("Hit!")
+
             else:
                 # Cache miss: update the cache for this line
                 miss_count += 1
                 total_cycles += memoryAccessTime + cacheAccessTime
                 update_cache(cache, index, displacement, tag)
+                print("Miss.")
+
         else:
             # Cache miss: update the cache for this line
             miss_count += 1
             total_cycles += memoryAccessTime + cacheAccessTime
             update_cache(cache, index, displacement, tag)
+            print("Miss.")
+
 
 
         print(f"data (displacement): {data}")
